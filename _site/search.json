@@ -1,0 +1,163 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Gabriel Pišvejc",
+    "section": "",
+    "text": "Gabriel Pišvejc\n\n\n/ˈgab.rɪ.ɛl ˈpɪʃ.vɛjt͡s/\nComputational Linguist | Machine Learning Engineer | Full Time Researcher\n\n\n\nWhat is the through-line between history, state-of-the-art machine learning, linguistics, open-source software and modern art? That is a very good question, I have no idea, all I know is I find them all interesting. This website is a small outlet of some of my stuff for the rest of the world to see. I invite you to explore the navigation bar at the top of the page and see what is out there."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "free_tools.html",
+    "href": "free_tools.html",
+    "title": "Free tools",
+    "section": "",
+    "text": "Here are some tools I have made, free for you to use as you wish:\n\n\n\n\n\n\n\n\n\n\n\nAutomatic Vowel Analysis script for Praat\n\n\n\n\n\n\n\n\n\n\nDnD Spell Search\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "technical_blog.html",
+    "href": "technical_blog.html",
+    "title": "Technical Blog",
+    "section": "",
+    "text": "Here is my technical blog:\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nTitle\n\n\n\n\n\n\nUsing Semantic Search for Dungeons and Dragons\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "Contact information",
+    "section": "",
+    "text": "e-mail: gabrielpisvejc[at]protonmail.com\nLinkedIn: https://www.linkedin.com/in/gabrielpisvejc/\nGitHub: https://github.com/GabrielZelva\nThe fastest way you will get a response from me is if you send me an e-mail.\nNote that while this website is in English, I also speak Spanish and Czech on a C2/Native level. If you are more comfortable communicating in either of those 2 languages, don’t hesitate to use them."
+  },
+  {
+    "objectID": "my_research.html",
+    "href": "my_research.html",
+    "title": "My research",
+    "section": "",
+    "text": "I am currently employed at the Aholab Signal Processing laboratory, working on Project DeepRestore, trying to return voice to people who lost it due to cancer."
+  },
+  {
+    "objectID": "my_research.html#current-work",
+    "href": "my_research.html#current-work",
+    "title": "My research",
+    "section": "",
+    "text": "I am currently employed at the Aholab Signal Processing laboratory, working on Project DeepRestore, trying to return voice to people who lost it due to cancer."
+  },
+  {
+    "objectID": "my_research.html#sociolinguistics",
+    "href": "my_research.html#sociolinguistics",
+    "title": "My research",
+    "section": "",
+    "text": "My sociolinguistic papers are currently going through the administrative process of being published and this page will be updated as soon as this process is finished. What I can share as of now is only the data which we cleaned up:\nhttps://zenodo.org/records/17922110"
+  },
+  {
+    "objectID": "my_research.html#my-work-on-preseea-málaga",
+    "href": "my_research.html#my-work-on-preseea-málaga",
+    "title": "My research",
+    "section": "My work on PRESEEA-Málaga",
+    "text": "My work on PRESEEA-Málaga\nMy sociolinguistic papers are currently going through the administrative process of being published and this page will be updated as soon as this process is finished. What I can share as of now is only the data which we cleaned up:\nhttps://zenodo.org/records/17922110"
+  },
+  {
+    "objectID": "my_research.html#research-into-historical-andalusian-vocabulary",
+    "href": "my_research.html#research-into-historical-andalusian-vocabulary",
+    "title": "My research",
+    "section": "Research into historical Andalusian vocabulary",
+    "text": "Research into historical Andalusian vocabulary\nWorking for the Bubión House Museum, I collaborated with María López Navarro, Nerea Torres Díaz and prof. Livia C. García Aguilar, on the research of the dialectal, lexicographical and sociological history of the Spanish words “secadera” and “locana”.\nhttps://casamuseobubion.es/palabras/inicio/"
+  },
+  {
+    "objectID": "my_research.html#current-work---silent-speech-recognition-from-semg",
+    "href": "my_research.html#current-work---silent-speech-recognition-from-semg",
+    "title": "My research",
+    "section": "",
+    "text": "I am currently employed at the Aholab Signal Processing laboratory, working on Project DeepRestore, trying to return voice to people who lost it due to cancer."
+  },
+  {
+    "objectID": "free_tools/vowel_analysis.html",
+    "href": "free_tools/vowel_analysis.html",
+    "title": "Automatic Vowel Analysis script for Praat",
+    "section": "",
+    "text": "GitHub repository\nDownload the script\nThis script is designed to do acoustic analysis of vowels on a whole linguistic corpus."
+  },
+  {
+    "objectID": "tutorials.html",
+    "href": "tutorials.html",
+    "title": "Guides & Tutorials",
+    "section": "",
+    "text": "Here, you can find my guides and tutorials:\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "essays.html",
+    "href": "essays.html",
+    "title": "Essays",
+    "section": "",
+    "text": "Here are my essays on a few different topics:\n\n\n\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "free_tools/vowel_analysis.html#how-to-use-it",
+    "href": "free_tools/vowel_analysis.html#how-to-use-it",
+    "title": "Automatic Vowel Analysis script for Praat",
+    "section": "How to use it",
+    "text": "How to use it\n\nOpen Praat\nClick the “Praat” button in the upper menu\nOpen Praat Script\nSelect the script\nClick the “Run” button in the upper menu\nFollow the instructions provided by the script\n\nNOTE: PRAAT TENDS TO FLICKER A LOT WITH THIS KIND OF SCRIPTS, BE CAREFUL IF YOU ARE PHOTOSENSITIVE I don’t think I can do much about it, this really is just a Praat thing. If this is a problem for your workflow, feel free to write me an email. There is technically a way to avoid the flickering, its just a bit of a pain in the ass and I cannot really do it for you in the code, I have to teach you how to bypass the buggy interface from the terminal."
+  },
+  {
+    "objectID": "free_tools/vowel_analysis.html#additional-instructions",
+    "href": "free_tools/vowel_analysis.html#additional-instructions",
+    "title": "Automatic Vowel Analysis script for Praat",
+    "section": "Additional instructions",
+    "text": "Additional instructions\nYou should have 2 folders somewhere on your PC.\nThe first one should contain the corpus, that is, .wav and .TextGrid files with corresponding names. The second one should be ideally empty and ready to be filled with the results generated by this script. Or you may just do it all in a single folder…\nFor me it’s a bit too chaotic, but if that is what you want, just input the same path twice. The script will not stand in your way."
+  },
+  {
+    "objectID": "free_tools/vowel_analysis.html#example-of-use",
+    "href": "free_tools/vowel_analysis.html#example-of-use",
+    "title": "Automatic Vowel Analysis script for Praat",
+    "section": "Example of use",
+    "text": "Example of use\nYou may try it with the example audio + TextGrid pair attached in the GitHub repository. For a bit of context, it is a young Spanish woman reading in an anechoic chamber. Her dialect employs 5 vowels /a/, /e/, /i/, /o/ and /u/. The segmentation was done automatically using MFA, so don’t expect human level precision, however, it is perfectly serviceable for this example. If you want to simulate the script analysing a whole corpus, just copy and paste the pair a few times in the same folder"
+  },
+  {
+    "objectID": "free_tools/DnD Spell Search.html",
+    "href": "free_tools/DnD Spell Search.html",
+    "title": "DnD Spell Search",
+    "section": "",
+    "text": "GitHub repository\nAccess the tool\nThe page may take a while to load, the server it is running on is not the fastest, but once it has loaded, it runs without any issues.\n\nAs a long time Dungeon Master, one thing I often face when introducing new players to Dungeons and Dragons is the overwhelming amount of rules involving magic. If you don’t know, every spell has quite a few specifics to it and you cannot just declare that you throw fire at your enemies. There are dice involved, measurements, sometimes material, verbal or somatic components… it is a lot… but as a new player you often really just want to throw fire at goblins or make plants grow real fast…\nSo here is where my tool comes in: You describe in plain English what you want to do and it searches the rule book for you, finding the spells that best accomplish that.\nIf you are interested about how this thing works on the inside, checkout my blog post.\nLEGAL NOTE: If this is somehow breaking any law regarding intellectual property, feel free to reach out to me and I will take it down or adjust it in a way that removes the issue."
+  },
+  {
+    "objectID": "blog/using_semantic_search_for_dnd.html",
+    "href": "blog/using_semantic_search_for_dnd.html",
+    "title": "Using Semantic Search for Dungeons and Dragons",
+    "section": "",
+    "text": "As a long time Dungeon Master, one thing I often face when introducing new players to Dungeons and Dragons is the overwhelming amount of rules involving magic. If you don’t know, every spell has quite a few specifics to it and you cannot just declare that you throw fire at your enemies. There are dice involved, measurements, sometimes material, verbal or somatic components… it is a lot… but as a new player, you often really just want to throw fire at goblins or make plants grow real fast… So I came up with an idea: What if you could just type what you want to do and my program looked up the relevant rules for you?\nTo do this, the question really becomes how to associate the meaning of the user input text with the meaning of what the rules say. And to answer that, we have to talk about semantic search."
+  },
+  {
+    "objectID": "blog/using_semantic_search_for_dnd.html#the-task-ahead-of-us",
+    "href": "blog/using_semantic_search_for_dnd.html#the-task-ahead-of-us",
+    "title": "Using Semantic Search for Dungeons and Dragons",
+    "section": "",
+    "text": "As a long time Dungeon Master, one thing I often face when introducing new players to Dungeons and Dragons is the overwhelming amount of rules involving magic. If you don’t know, every spell has quite a few specifics to it and you cannot just declare that you throw fire at your enemies. There are dice involved, measurements, sometimes material, verbal or somatic components… it is a lot… but as a new player, you often really just want to throw fire at goblins or make plants grow real fast… So I came up with an idea: What if you could just type what you want to do and my program looked up the relevant rules for you?\nTo do this, the question really becomes how to associate the meaning of the user input text with the meaning of what the rules say. And to answer that, we have to talk about semantic search."
+  },
+  {
+    "objectID": "blog/using_semantic_search_for_dnd.html#what-is-semantic-search",
+    "href": "blog/using_semantic_search_for_dnd.html#what-is-semantic-search",
+    "title": "Using Semantic Search for Dungeons and Dragons",
+    "section": "What is semantic search?",
+    "text": "What is semantic search?\nIn plain English, semantic search just means searching via meaning. So how do we do that? Well first, we have to talk about how we even express meaning in a mathematical way. As humans, we understand that the meanings of ‘cats’ and ‘snakes’ are more similar to each other then the meanings of ‘cats’ and the ‘Gospel of Judas’. If a kid asked me the usual Why? question, I would say something along the lines of “Well, cats and snakes are both animals, while the Gospel of Judas is a theological text.” They would probably ask me what theological means, but that is beside the point. The relevant question for us is how can we express my answer mathematically?\nWe can imagine a 2d plane with the axes \\(x\\) and \\(y\\). We can say that the animalness of a concept is on the \\(x\\) axis while the theolgicalness lies on the \\(y\\) axis. So for the purpose of our example, we will place 3 concepts on this plane: Cats will go on [1,0], high on the animal axis, because, well, cats are animals and low on the theological axis because they are not really relevant for theology (I know they don’t exactly have 0 relation, but let’s keep this simple for the sake of the example.) Snakes can go at [1,0.2], because they are still very much animals, but they are a bit more connected to theology then cats. Finally, the Gospel of Judas can go to [0, 1] as it is a theological text and not an animal.\n\n\n\n\n\n\n\n\n\nJust looking at this graph, we can see it very easily. Snakes and Cats are close to each other and both are far from the Gospel of Judas. However, Snakes are closer to the Gospel then Cats. We could even take a ruler and see the exact distances between the concepts. That is, we have just created a semantic space where concepts can be placed and the relations between their meaning become numerically measurable. In practice, we call this form of representation an Embedding Space.\n\nEmbeddings\nWhen talking about modern AI, we often hear about tokens. You probably know that any text you feed into a large language model gets segmented into pieces which are essentially words, but not exactly. However, the reason behind this segmentation is often omitted. So, what is the deal? In short, without going too deep into how these models work on the inside (perhaps in another blog post), if we want the model to understand what we want it to do, we need to feed it meaning, not just combinations of letters. And we have already seen how meaning can be expressed mathematically.\nOf course, in the real world, we wouldn’t exactly place ‘Animalness’ on the \\(x\\) axis, ‘Theologicalness’ on the \\(y\\) axis and call it a day. Real embeddings are still vectors just as the [1,0] we described before, however, they are slightly larger, as in, there are more axes. While we as humans struggle to visualise anything that has more then 3 dimensions, mathematically it is very easy to add dimensions, look: [1,0,99] This 3 dimensional vector now has one more axis, which corresponds to… I don’t know, willingness to scratch furniture. And look [1,0,99,0], a fourth dimension, this one represents the friendliness… I can keep adding them like that as long as I want to… which is sort of what happens in Natural Language Processing. The vectors we associate with each token often have thousands of dimensions and every direction in this space represents some meaning. So we end up with this high-dimensional space where concepts are placed.\n\n\nDistance expression\nSo how do we express the distance between concepts, if there are so many dimensions we cannot visualise it? It was easy when we could use a ruler, but it gets slightly more complicated if we have to account for thousands of dimensions, right? Actually, not really. If instead of a ruler, we use maths, it is just as easy as adding more dimensions to the vector. The formula that corresponds to what a ruler would do is what we call Euclidian distance and it looks like this in 2D:\n\\[\nd(x, y) = \\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2}\n\\]\nIf we want to take it to 3D, all we have to do is account for the distance on the newly added \\(z\\) axis:\n\\[\nd(x, y, z) = \\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2 + (z_1 - z_2)^2}\n\\] I think you can already see the pattern. For every new dimension, we just need to sum the squared difference on the newly added axis, so the actual formula for a space with \\(n\\) dimensions becomes:\n\\[\nd(p, q) = \\sqrt{\\sum_{i=1}^{n} (p_i - q_i)^2}\n\\]\nAnd just like that, we can find the distance between any two concepts in our way-too-many dimensional space. In practice there are also other formulas for expressing how closely related two vectors are, such as Cosine Similarity which is what my code actually uses, but conceptually, the idea is not that different. Find out how related 2 mathematical expressions of meaning are."
+  },
+  {
+    "objectID": "blog/using_semantic_search_for_dnd.html#putting-it-all-together",
+    "href": "blog/using_semantic_search_for_dnd.html#putting-it-all-together",
+    "title": "Using Semantic Search for Dungeons and Dragons",
+    "section": "Putting it all together",
+    "text": "Putting it all together\nSo, how do we use all of this to find the relevant DnD spells?\nFor this purpose, we are going to use something called a Sentence Encoder, which is just a model that takes the text, segments it into tokens (each with an embedding) and then returns a single embedding corresponding to the overall meaning of the whole sequence. We are then going to find the vector that represents each of the spell descriptions in the rulebook and place all of them in a multi-dimensional space, just like the ones we discussed above. Then, once the user describes what they want to do, we will also find the vector representation for the input and place it in the same space. All we have left to do is to find the relation between the input vector and each of the spell description vectors and output the most closely related spells.\nIf you want to see the full program in action and play around with it, you can find it in the free tools section. Just beware, the server I am hosting it on is a bit slow and it may take a moment to load.\nIf you want to read through the source code, you can find all of it in the GitHub Repository."
+  },
+  {
+    "objectID": "free_tools/dnd_spell_search.html",
+    "href": "free_tools/dnd_spell_search.html",
+    "title": "DnD Spell Search",
+    "section": "",
+    "text": "GitHub repository\nAccess the tool\nThe page may take a while to load, the server it is running on is not the fastest, but once it has loaded, it runs without any issues.\n\nAs a long time Dungeon Master, one thing I often face when introducing new players to Dungeons and Dragons is the overwhelming amount of rules involving magic. If you don’t know, every spell has quite a few specifics to it and you cannot just declare that you throw fire at your enemies. There are dice involved, measurements, sometimes material, verbal or somatic components… it is a lot… but as a new player you often really just want to throw fire at goblins or make plants grow real fast…\nSo here is where my tool comes in: You describe in plain English what you want to do and it searches the rule book for you, finding the spells that best accomplish that.\nIf you are interested about how this thing works on the inside, checkout my blog post.\nLEGAL NOTE: If this is somehow breaking any law regarding intellectual property, feel free to reach out to me and I will take it down or adjust it in a way that removes the issue."
+  }
+]

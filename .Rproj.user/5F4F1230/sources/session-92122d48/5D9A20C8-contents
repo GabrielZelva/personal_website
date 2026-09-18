@@ -1,0 +1,9 @@
+---
+title: "Technical Blog"
+listing: 
+  type: table
+  contents: blog/*.qmd
+---
+
+Here is my technical blog: 
+

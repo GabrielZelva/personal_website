@@ -1,0 +1,25 @@
+---
+title: "My research"
+editor: source
+---
+
+
+## Current work - Silent Speech Recognition from sEMG
+
+I am currently employed at the Aholab Signal Processing laboratory, working on [Project DeepRestore](https://aholab.ehu.eus/deeprestore/en/), trying to return voice to people who lost it due to cancer.
+
+## My work on PRESEEA-Málaga
+
+My sociolinguistic papers are currently going through the administrative process of being published and this page will be updated as soon as this process is finished. What I can share as of now is only the data which we cleaned up:
+
+[https://zenodo.org/records/17922110](https://zenodo.org/records/17922110)
+
+## Research into historical Andalusian vocabulary
+
+Working for the Bubión House Museum, I collaborated with María López Navarro, Nerea Torres Díaz and prof. Livia C. García Aguilar, on the research of the dialectal, lexicographical and sociological history of the Spanish words "secadera" and "locana".
+
+[https://casamuseobubion.es/palabras/inicio/](https://casamuseobubion.es/palabras/inicio/)
+
+
+
+

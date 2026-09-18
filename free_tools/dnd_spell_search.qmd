@@ -1,0 +1,20 @@
+---
+title: "DnD Spell Search"
+editor: source
+---
+[GitHub repository](https://github.com/GabrielZelva/DnD_Spells_search)
+
+<a href="https://swlbj4-gabriel-p0.shinyapps.io/dnd_spell_search1/" class="btn btn-primary">Access the tool</a>
+
+*The page may take a while to load, the server it is running on is not the fastest, but once it has loaded, it runs without any issues.*
+
+---
+
+As a long time Dungeon Master, one thing I often face when introducing new players to Dungeons and Dragons is the overwhelming amount of rules involving magic. If you don't know, every spell has quite a few specifics to it and you cannot just declare that you throw fire at your enemies. There are dice involved, measurements, sometimes material, verbal or somatic components... it is a lot... but as a new player, you often really just want to throw fire at goblins or make plants grow real fast... 
+
+So here is where my tool comes in: You describe in plain English what you want to do and it searches the rule book for you, finding the spells that best accomplish that. 
+
+If you are interested about how this thing works on the inside, checkout my [blog post](../blog/using_semantic_search_for_dnd.qmd).
+
+**LEGAL NOTE**: If this is somehow breaking any law regarding intellectual property, feel free to reach out to me and I will take it down or adjust it in a way that removes the issue.
+

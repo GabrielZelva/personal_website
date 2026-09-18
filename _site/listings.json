@@ -1,0 +1,23 @@
+[
+  {
+    "listing": "/free_tools.html",
+    "items": [
+      "/free_tools/vowel_analysis.html",
+      "/free_tools/DnD Spell Search.html"
+    ]
+  },
+  {
+    "listing": "/tutorials.html",
+    "items": []
+  },
+  {
+    "listing": "/essays.html",
+    "items": []
+  },
+  {
+    "listing": "/technical_blog.html",
+    "items": [
+      "/blog/using_semantic_search_for_dnd.html"
+    ]
+  }
+]

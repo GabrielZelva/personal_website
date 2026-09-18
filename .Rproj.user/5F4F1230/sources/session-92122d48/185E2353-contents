@@ -1,0 +1,27 @@
+project:
+  type: website
+
+website:
+  title: "Gabriel Pišvejc"
+  navbar:
+    left:
+      - href: technical_blog.qmd
+        text: Technical blog
+      - href: tutorials.qmd
+        text: Tutorials & Guides
+      - href: free_tools.qmd
+        text: Free tools
+      - href: essays.qmd
+        text: My essays
+      - href: my_research.qmd
+        text: My research
+      - href: contact.qmd
+        text: Get in touch
+
+format:
+  html:
+    css: styles.css
+    toc: true
+
+editor: source
+

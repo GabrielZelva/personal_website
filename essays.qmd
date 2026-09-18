@@ -1,0 +1,10 @@
+---
+title: "Essays"
+editor: source
+listing: 
+  contents: essays/*.qmd
+  type: grid
+  fields: [title, description]
+---
+
+Here are my essays on a few different topics:

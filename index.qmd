@@ -1,13 +1,31 @@
 ---
-title: "Gabriel Pišvejc"
+editor: source
+toc: false
+format:
+  html:
+    include-in-header:
+      text: |
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
 ---
 
-This is a Quarto website.
+![](logo_round.png){fig-align="center" width="250"}
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
-```{r}
-1 + 1
-```
+::: {style="text-align: center;"}
+# Gabriel Pišvejc
 
-test
+:::
+
+::: {style="text-align: center;"}
+##### /ˈgab.rɪ.ɛl ˈpɪʃ.vɛjt͡s/ {style="font-family: 'Noto Sans', sans-serif; text-align: center;"}
+Computational Linguist | Machine Learning Engineer | Full Time Researcher
+
+
+---
+:::
+
+::: {style="text-align: center;"}
+What is the through-line between history, state-of-the-art machine learning, linguistics, open-source software and modern art? That is a very good question, I have no idea, all I know is I find them all interesting. This website is a small outlet of some of my stuff for the rest of the world to see. I invite you to explore the navigation bar at the top of the page and see what is out there. 
+:::

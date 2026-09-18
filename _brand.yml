@@ -1,0 +1,25 @@
+color:
+  palette:
+    grey: "#222222"
+    blue: "#0c2e47"
+    white: "#ffffff"
+  background: white
+  foreground: grey
+  primary: blue
+
+logo: 
+  medium: logo_square.png
+
+typography:
+  fonts:
+    - family: Prompt
+      source: google
+      weight: [100, 300, 500, 900]
+      style: [normal, italic]
+  base:
+    family: Prompt
+    weight: 300
+  headings:
+    family: Prompt
+    weight: 900
+    style: italic
