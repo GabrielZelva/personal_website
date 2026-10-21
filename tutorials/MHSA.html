@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Understanding Multi-Headed Self-Attention – Gabriel Pišvejc</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-8db676a7a94755fb48b051285e4aae3b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-8db676a7a94755fb48b051285e4aae3b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-8db676a7a94755fb48b051285e4aae3b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../logo_square.png" alt="" class="navbar-logo light-content">
+    <img src="../logo_square.png" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Gabriel Pišvejc</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../technical_blog.html"> 
+<span class="menu-text">Technical blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorials.html"> 
+<span class="menu-text">Tutorials &amp; Guides</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../free_tools.html"> 
+<span class="menu-text">Free tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../essays.html"> 
+<span class="menu-text">My essays</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../my_research.html"> 
+<span class="menu-text">My research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../contact.html"> 
+<span class="menu-text">Get in touch</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-it-used-for" id="toc-what-is-it-used-for" class="nav-link active" data-scroll-target="#what-is-it-used-for">What is it used for?</a></li>
+  <li><a href="#how-does-it-work" id="toc-how-does-it-work" class="nav-link" data-scroll-target="#how-does-it-work">How does it work?</a>
+  <ul class="collapse">
+  <li><a href="#high-level-abstraction" id="toc-high-level-abstraction" class="nav-link" data-scroll-target="#high-level-abstraction">High-level abstraction</a></li>
+  <li><a href="#the-actual-maths" id="toc-the-actual-maths" class="nav-link" data-scroll-target="#the-actual-maths">The actual maths</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Understanding Multi-Headed Self-Attention</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="what-is-it-used-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-it-used-for">What is it used for?</h2>
+<p>MHSA is a core component of the Transformer architecture. The idea is that as the individual tokens, represented by Embeddings, come in, we need to find a contextual representation for each of them.</p>
+<p>That is, the different meanings of <code>stoned</code>, in <code>They stoned the witch.</code> and <code>This guy got completely stoned.</code> need to be represented by different vectors, otherwise, we would be losing important semantic information.</p>
+</section>
+<section id="how-does-it-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-it-work">How does it work?</h2>
+<section id="high-level-abstraction" class="level3">
+<h3 class="anchored" data-anchor-id="high-level-abstraction">High-level abstraction</h3>
+<section id="the-self-attention-part" class="level4">
+<h4 class="anchored" data-anchor-id="the-self-attention-part">The self-attention part</h4>
+<p>In order to achieve this change, we need to take into account the surrounding vectors in a learned manner. So, what we do is the following:</p>
+<ol type="1">
+<li>We create a table which can describe the relations between every pair of tokens by putting the full input sequence on both axes, like so:</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>Hello</th>
+<th>world</th>
+<th>!</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Hello</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>world</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>!</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ol start="2" type="1">
+<li>Each vector will then ask the rest: ‘What do I interact with?’ and every vector, including itself, will say what does it interact with. What this actually means is that we will have 2 matrices, <code>query</code> (What do I interact with?), and <code>key</code> (I interact with these things!), which are going to multiply the vectors and create new vectors which will take their spots at the table, like so:</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>key(Hello)</th>
+<th>key(world)</th>
+<th>key(!)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>query(Hello)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>query(world)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>query(!)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>Note that queries take the rows, while keys take the columns.</em></p>
+<ol start="3" type="1">
+<li>Once this is done, we fill the cells with dot products of their corresponding row and column vectors. This can be understood as seeing if there is any compatibility between the ‘What do I interact with?’ and ‘I interact with these things!’ of the vectors.</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>key(Hello)</th>
+<th>key(world)</th>
+<th>key(!)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>query(Hello)</td>
+<td>11</td>
+<td>16</td>
+<td>19</td>
+</tr>
+<tr class="even">
+<td>query(world)</td>
+<td>14</td>
+<td>17</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>query(!)</td>
+<td>15</td>
+<td>18</td>
+<td>21</td>
+</tr>
+</tbody>
+</table>
+<p><em>I am obviously making the numbers up</em></p>
+<ol start="4" type="1">
+<li>However, we also need to divide them by the square root of the dimensionality of the qkv vectors, in order to keep the variance roughly around 1, independently of the model size. The resulting numbers are called the <code>raw attention scores</code>.</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 29%">
+<col style="width: 29%">
+<col style="width: 29%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>key(Hello)</th>
+<th>key(world)</th>
+<th>key(!)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>query(Hello)</td>
+<td><span class="math inline">\(\frac{11}{\sqrt{\text{d\_qkv}}}\)</span></td>
+<td><span class="math inline">\(\frac{16}{\sqrt{\text{d\_qkv}}}\)</span></td>
+<td><span class="math inline">\(\frac{19}{\sqrt{\text{d\_qkv}}}\)</span></td>
+</tr>
+<tr class="even">
+<td>query(world)</td>
+<td><span class="math inline">\(\frac{14}{\sqrt{\text{d\_qkv}}}\)</span></td>
+<td><span class="math inline">\(\frac{17}{\sqrt{\text{d\_qkv}}}\)</span></td>
+<td><span class="math inline">\(\frac{20}{\sqrt{\text{d\_qkv}}}\)</span></td>
+</tr>
+<tr class="odd">
+<td>query(!)</td>
+<td><span class="math inline">\(\frac{15}{\sqrt{\text{d\_qkv}}}\)</span></td>
+<td><span class="math inline">\(\frac{18}{\sqrt{\text{d\_qkv}}}\)</span></td>
+<td><span class="math inline">\(\frac{21}{\sqrt{\text{d\_qkv}}}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>I am obviously making the numbers up</em></p>
+<ol start="5" type="1">
+<li>And since the dot product is not restricted to anything and the numbers can vary an awful lot, we normalise them using Softmax row by row, which is going to return nice probability distributions of what interacts with what else. These numbers are called the <code>(normalised) attention scores</code>.</li>
+</ol>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th></th>
+<th>key(Hello)</th>
+<th>key(world)</th>
+<th>key(!)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>query(Hello)</td>
+<td>0.0</td>
+<td>0.4</td>
+<td>0.6</td>
+</tr>
+<tr class="even">
+<td>query(world)</td>
+<td>0.9</td>
+<td>0.05</td>
+<td>0.05</td>
+</tr>
+<tr class="odd">
+<td>query(!)</td>
+<td>0.8</td>
+<td>0.1</td>
+<td>0.1</td>
+</tr>
+</tbody>
+</table>
+<p><em>Didn’t actually apply softmax, still making up numbers</em></p>
+<ol start="6" type="1">
+<li>Once we have those, what we will do is that we will take the <code>value</code> matrices and we will use them to get yet another representation by multiplying the original embedding vectors. [That is, we will have value(Hello), value(world), value(!).] We will then multiply these representations in their corresponding columns by the <code>(normalised) attention scores</code>, like so:</li>
+</ol>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 29%">
+<col style="width: 30%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>key(Hello)</th>
+<th>key(world)</th>
+<th>key(!)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>query(Hello)</td>
+<td><span class="math inline">\(0.0 \cdot value(Hello)\)</span></td>
+<td><span class="math inline">\(0.4 \cdot value(world)\)</span></td>
+<td><span class="math inline">\(0.6 \cdot value(!)\)</span></td>
+</tr>
+<tr class="even">
+<td>query(world)</td>
+<td><span class="math inline">\(0.9 \cdot value(Hello)\)</span></td>
+<td><span class="math inline">\(0.05 \cdot value(world)\)</span></td>
+<td><span class="math inline">\(0.05 \cdot value(!)\)</span></td>
+</tr>
+<tr class="odd">
+<td>query(!)</td>
+<td><span class="math inline">\(0.8 \cdot value(Hello)\)</span></td>
+<td><span class="math inline">\(0.1 \cdot value(world)\)</span></td>
+<td><span class="math inline">\(0.1 \cdot value(!)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><em>The resulting numbers are called <code>attention weights</code></em></p>
+<ol start="7" type="1">
+<li>What we then do inside a transformer block is that for each row, we take the original embedding and sum it with whatever is in that row, like so: <span class="math display">\[\text{updated\_Hello} = \text{Hello} + 0.0 \cdot value(Hello)+ 0.4 \cdot value(world) + 0.6 \cdot value(!)\]</span> <em>updated_Hello is the final contextual representation, Hello is the original input embedding, however, this is not technically part of the core attention mechanism, rather part of the transformer architecture, and it is therefore not done per head.</em></li>
+</ol>
+</section>
+<section id="the-multi-headed-part" class="level4">
+<h4 class="anchored" data-anchor-id="the-multi-headed-part">The multi-headed part</h4>
+<p>The multi-headed part of the name just means that we are doing multiple of the above operations in parallel, however, just how is it parallelised is quite clever:</p>
+<ol type="1">
+<li>We have the <code>query</code>, <code>key</code> and <code>value</code> representations, however, these often need to be quite big, so we split them into smaller chunks. That is, if these vectors have 30 columns and we want to have 10 heads, we would just split each of the matrices into 10 smaller ones, each ending up with 3 columns.</li>
+<li>Then, what we do is that we do the above process in parallel for each of the heads and concatenate the outputs into one big vector (which happens to have the same dimensions as the token representation vector).</li>
+<li>We then pass this vector through a linear transformation matrix and just like that, we have the output representation.</li>
+</ol>
+<p>The idea behind this, aside from being efficient, is that it lets each of the heads specialise in something and do just that very well. We then slap those representations together and the pass through the linear transformation makes it so that the resulting vector is actually coherent, not just a bunch of small relationless representations.</p>
+</section>
+</section>
+<section id="the-actual-maths" class="level3">
+<h3 class="anchored" data-anchor-id="the-actual-maths">The actual maths</h3>
+<p>In practice, we still have to do all of that, but we also need to worry about batches and multiple heads operating in parallel. Additionally, for efficiency reasons, we need to do everything via multi-dimensional tensor objects.</p>
+<p>Here is the process, step by step:</p>
+<ol type="1">
+<li>We start with an input tensor of dimensions <span class="math inline">\([batch\_size, n\_tokens, embedding\_dim]\)</span>.</li>
+<li>This gets multiplied by the three <code>query</code>, <code>key</code> and <code>value</code> matrices, each of dimensionality <span class="math inline">\([embedding\_dim, qkv\_dim]\)</span>, resulting in three new tensors, each of dimensionality <span class="math inline">\([batch\_size, n\_tokens, qkv\_dim]\)</span>. Each stores one of the 3 representations and I will be calling them <code>queries</code>, <code>keys</code> and <code>values</code>.</li>
+<li>The last dimension then gets split into the heads, so the tensors end up with the following dimensions <span class="math inline">\([batch\_size, n\_tokens, n\_heads, head\_dim]\)</span> where <span class="math inline">\(n\_heads\)</span> is the number of heads and <span class="math inline">\(head\_dim\)</span> is the dimensionality of each head, as explained above.</li>
+<li>We then transpose the second and a third dimension, so that the dimensionality now looks like this: <span class="math inline">\([batch\_size, n\_heads, n\_tokens, head\_dim]\)</span>.</li>
+<li>Now, we have all the tensors we want in the correct format, so we need to start using them. As explained above, we need to get the dot product of the <code>queries</code> and <code>keys</code>. To do this, we transpose the third and fourth dimensions of the <code>keys</code> tensor and multiply it with <code>queries</code>. That is, we are multiplying <span class="math inline">\(queries[batch\_size, n\_heads, n\_tokens, head\_dim] \cdot keys[batch\_size, n\_heads, head\_dim, n\_tokens]\)</span>. As mentioned in the previous step the first two dimensions <span class="math inline">\([batch\_size, n\_heads]\)</span> sort of act as a 2-level nested loop, while the remaining two are essentially doing a matrix-matrix multiplication on every iteration of the inside loop with the following dimensionality: <span class="math inline">\([n\_tokens, head\_dim] \cdot [head\_dim, n\_tokens]\)</span>. This elegantly returns a matrix of <span class="math inline">\([n\_tokens, n\_tokens]\)</span> dimensionality, that is, the self-attention matrix explained above, in the high-level section. The final dimensionality of the <code>attention scores</code> tensor is therefore <span class="math inline">\([batch\_size, n\_heads, n\_tokens, n\_tokens]\)</span>.</li>
+<li>We then apply Softmax by row to this tensor divided by the square root of qkv dimensionality. (I am going to clarify, because there are a lot of dimensions floating around here, by qkv dimensionality, I mean the number dimensions of a single qkv vector in a single head. We divide by a scalar.)</li>
+<li>We then multiply the <code>attention scores</code> tensor by the <code>values</code> tensor, that is, <span class="math inline">\(attn[batch\_size, n\_heads, n\_tokens, n\_tokens] \cdot values[batch\_size, n\_heads, n\_tokens, head\_dim]\)</span>. This returns the <code>attention weights</code> tensor, which has dimensions<span class="math inline">\([batch\_size, n\_heads, n\_tokens, head\_dim]\)</span>.</li>
+<li>In order to extract the context vectors for the individual tokens from this tensor, we need to transpose back to the original tensor dimensionality, that is we transpose the second and third dimensions and <code>attention weights</code> becomes <span class="math inline">\([batch\_size, n\_tokens, n\_heads, head\_dim]\)</span>.</li>
+<li>We then combine the heads back together and the dimensionality becomes <span class="math inline">\([batch\_size, n\_tokens, qkv\_dim]\)</span>.</li>
+<li>We then multiply this by the linear projection matrix to make sure that the heads’ outputs actually work well together as a representation.</li>
+<li>And thus, we end up with a tensor of contextualised representations where the last dimension is the dimension of the contextual representation with the same dimensionality as <span class="math inline">\(embeddin\_dim\)</span>.</li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

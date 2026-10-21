@@ -1,0 +1,28 @@
+[
+  {
+    "listing": "/essays.html",
+    "items": []
+  },
+  {
+    "listing": "/tutorials.html",
+    "items": [
+      "/tutorials/MHSA.html",
+      "/tutorials/virerbi.html"
+    ]
+  },
+  {
+    "listing": "/free_tools.html",
+    "items": [
+      "/free_tools/vowel_analysis.html",
+      "/free_tools/dnd_spell_search.html",
+      "/free_tools/Spanish_future_tense_searcher.html",
+      "/free_tools/Spanish_present_tense_searcher.html"
+    ]
+  },
+  {
+    "listing": "/technical_blog.html",
+    "items": [
+      "/blog/using_semantic_search_for_dnd.html"
+    ]
+  }
+]
