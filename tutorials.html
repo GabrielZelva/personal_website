@@ -344,7 +344,7 @@ The Viterbi algorithm is used for calculating the most likely sequence of events
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/GabrielZelva\.github\.io\/personal_website\/");
+        var filterRegex = new RegExp("https:\/\/gabrielzelva\.github\.io\/personal_website");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
